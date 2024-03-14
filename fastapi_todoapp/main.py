@@ -1,7 +1,6 @@
 import os
 from contextlib import asynccontextmanager
-from typing import Union, Optional
-from fastapi_todoapp import settings
+from typing import Optional
 from fastapi_todoapp.settings import DATABASE_URL, TEST_DATABASE_URL
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from fastapi import FastAPI
