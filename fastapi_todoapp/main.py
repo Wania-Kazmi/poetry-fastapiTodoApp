@@ -102,7 +102,7 @@ def delete_todo(todo_id: int):
         if existing_todo is None:
             raise HTTPException(status_code=404, detail="Todo not found")
 
-        # Delete the todo from the database
+        # Delete the todo from DB
         session.delete(existing_todo)
         session.commit()
         return {"message": "Todo successfully deleted"}
