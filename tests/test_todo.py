@@ -9,8 +9,8 @@ from fastapi.testclient import TestClient
 connection_string = str(TEST_DATABASE_URL).replace(
         "postgresql", "postgresql+psycopg"
     )
-test_engine =  create_engine(
-    "postgresql://waniashah019:qDXbZjHo2Q3V@ep-summer-unit-485132.ap-southeast-1.aws.neon.tech/testing-DB?sslmode=require", connect_args={"sslmode": "require"}, pool_recycle=300
+engine = create_engine(
+        connection_string, connect_args={"sslmode": "require"}, pool_recycle=300
 )
 
 
