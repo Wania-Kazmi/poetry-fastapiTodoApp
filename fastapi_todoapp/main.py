@@ -1,10 +1,11 @@
 from contextlib import asynccontextmanager
 from typing import Optional
-from fastapi_todoapp.settings import DATABASE_URL, TEST_DATABASE_URL
+# from fastapi_todoapp.settings import DATABASE_URL, TEST_DATABASE_URL
+from fastapi_todoapp import settings
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from fastapi import FastAPI
 from fastapi import FastAPI, HTTPException
-from tests.test_todo import TEST_EXECUTION
+# from tests.test_todo import TEST_EXECUTION
 
 class Todo(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -13,21 +14,21 @@ class Todo(SQLModel, table=True):
 
 # only needed for psycopg 3 - replace postgresql
 # with postgresql+psycopg in settings.DATABASE_URL
-# connection_string = str(settings.DATABASE_URL).replace(
-#     "postgresql", "postgresql+psycopg"
-# )
+connection_string = str(settings.DATABASE_URL).replace(
+    "postgresql", "postgresql+psycopg"
+)
     
 
 
 # Determine which database URL to use based on the environment
-if TEST_EXECUTION:
-    connection_string = str(TEST_DATABASE_URL).replace(
-        "postgresql", "postgresql+psycopg"
-    )
-else:
-    connection_string = str(DATABASE_URL).replace(
-        "postgresql", "postgresql+psycopg"
-    )
+# if TEST_EXECUTION:
+#     connection_string = str(TEST_DATABASE_URL).replace(
+#         "postgresql", "postgresql+psycopg"
+#     )
+# else:
+#     connection_string = str(DATABASE_URL).replace(
+#         "postgresql", "postgresql+psycopg"
+#     )
 
 # recycle connections after 5 minutes
 # to correspond with the compute scale down
@@ -51,7 +52,9 @@ async def lifespan(app: FastAPI):
     create_db_and_tables()
     yield
 
-
+def get_session():
+    with Session(engine) as session:
+        yield session
 
 app = FastAPI(lifespan=lifespan)
 
