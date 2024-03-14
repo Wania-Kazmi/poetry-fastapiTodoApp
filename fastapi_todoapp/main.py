@@ -1,4 +1,3 @@
-import os
 from contextlib import asynccontextmanager
 from typing import Optional
 from fastapi_todoapp.settings import DATABASE_URL, TEST_DATABASE_URL
