@@ -42,15 +42,15 @@ def client_fixture(session: Session):
 
 
 # Test Root - GET
-@pytest.mark.asyncio
-async def test_read_root(client:TestClient):
+# @pytest.mark.asyncio
+def test_read_root(client:TestClient):
     response = client.get("/")
     assert response.status_code == 200
     assert response.json() == {"Hello": "World"}
 
 #general test 
-@pytest.mark.asyncio
-async def test_write_main(client:TestClient):
+# @pytest.mark.asyncio
+def test_write_main(client:TestClient):
         todo_content = "buy bread"
 
         response = client.post("/todos/",
@@ -64,8 +64,8 @@ async def test_write_main(client:TestClient):
 
 
 # Test Read all todos - GET
-@pytest.mark.asyncio
-async def test_read_todos(session: Session, client: TestClient):
+# @pytest.mark.asyncio
+def test_read_todos(session: Session, client: TestClient):
     # Create a todo to read
     todo = Todo(content="Read New Todo 112")
     session.add(todo)
@@ -83,23 +83,16 @@ async def test_read_todos(session: Session, client: TestClient):
 
 
 # Create Todo - POST
-@pytest.mark.asyncio
+# @pytest.mark.asyncio
 def test_create_todo(session:Session, client:TestClient):
         # Make the post request within the session context
         response = client.post("/todos/", json={"content": "Post New Todo 1"})
         assert response.status_code == 200
         assert response.json()["content"] == "Post New Todo 1"
-        
-        # Query the database to ensure the new todo has been added
-        # new_todo = session.exec(select(Todo).order_by(Todo.id.desc())).first()
-        # assert new_todo is not None
-        # assert new_todo.content == "Post Todo 1"
-
-
 
 
 #Update Todo - PUT
-@pytest.mark.asyncio
+# @pytest.mark.asyncio
 def test_update_todo(client:TestClient):
         # Create a todo first to update it
         response = client.post("/todos/", json={"content": "Old Content"})
@@ -113,7 +106,7 @@ def test_update_todo(client:TestClient):
         
 
 # #Delete Todo - DELETE
-@pytest.mark.asyncio
+# @pytest.mark.asyncio
 def test_delete_todo(client:TestClient):
         # Create a todo first to delete it
         response = client.post("/todos/", json={"content": "Delete Me"})
