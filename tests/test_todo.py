@@ -29,7 +29,7 @@ def fixture_test_db_session():
 @pytest.fixture(name="client", scope="function")  
 def client_fixture(session: Session):  
     def get_session_override():  
-        print("Overriding client session")
+        # print("Overriding client session")
         return session
 
     app.dependency_overrides[get_session] = get_session_override   
@@ -84,7 +84,7 @@ def test_read_todos(session: Session, client: TestClient):
 
 # Create Todo - POST
 # @pytest.mark.asyncio
-def test_create_todo(session:Session, client:TestClient):
+def test_create_todo(client:TestClient):
         # Make the post request within the session context
         response = client.post("/todos/", json={"content": "Post New Todo 1"})
         assert response.status_code == 200
